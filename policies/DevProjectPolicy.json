@@ -1,0 +1,48 @@
+{ 
+  "Version": "2012-10-17", 
+  "Statement": [ 
+    { 
+      "Sid": "EC2ActionsOnTaggedResources", 
+      "Effect": "Allow", 
+      "Action": [ 
+        "ec2:DescribeInstances", 
+        "ec2:DescribeVolumes", 
+        "ec2:StartInstances", 
+        "ec2:StopInstances", 
+        "ec2:RebootInstances", 
+        "ec2:AttachVolume", 
+        "ec2:DetachVolume" 
+      ], 
+      "Resource": "*", 
+      "Condition": { 
+        "StringEquals": { 
+          "ec2:ResourceTag/Project": "Projectx" 
+        } 
+      } 
+    }, 
+    { 
+      "Sid": "S3ReadWriteNoDelete", 
+      "Effect": "Allow", 
+      "Action": [ 
+        "s3:GetObject", 
+        "s3:PutObject", 
+        "s3:ListBucket" 
+      ], 
+      "Resource": [ 
+        "arn:aws:s3:::harshitha-projectx-prod", 
+        "arn:aws:s3:::harshitha-projectx-prod/*" 
+      ] 
+    }, 
+    { 
+      "Sid": "DenyS3Delete", 
+      "Effect": "Deny", 
+      "Action": [ 
+        "s3:DeleteObject", 
+        "s3:DeleteObjectVersion" 
+      ], 
+      "Resource": [ 
+        "arn:aws:s3:::harshitha-projectx-prod/*" 
+      ] 
+    } 
+  ] 
+} 
